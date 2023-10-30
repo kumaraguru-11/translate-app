@@ -1,38 +1,336 @@
-.App {
-  text-align: center;
+::-webkit-scrollbar {
+  display: none;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+:root {
+  --primary-color: #356aff;
+  --bg-color: #e6e4e4;
+  --light-bg-color: #fff;
+  --text-color: #111116;
+  --light-text-color: #abaaab;
+  --primary-text-color: #fff;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
 }
-
-.App-header {
-  background-color: #282c34;
+.body {
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  color: var(--text-color);
+  background-color: var(--bg-color);
+}
+.body.dark {
+  --bg-color: #111116;
+  --light-bg-color: #1c1b20;
+  --text-color: #fff;
+  --light-text-color: #58575c;
+}
+.container {
+  position: relative;
+  padding: 0 20px;
+  display: flex;
+  gap: 10px;
+}
+.container .card {
+  background-color: var(--light-bg-color);
+  border: 2px solid var(--light-bg-color);
+  flex: 1;
+  padding: 30px;
+  border-radius: 20px;
+}
+.card .from,
+.card .to {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.card .heading {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--light-text-color);
+  white-space: nowrap;
+}
+.dropdown-container {
+  position: relative;
+  width: 100%;
+  margin-bottom: 10px;
+}
+.dropdown-container .dropdown-toggle {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  border-radius: 30px;
+  background-color: var(--bg-color);
+  /* cursor: pointer; */
+  transition: all 0.3s;
+}
+.dropdown-container .dropdown-toggle span {
+  flex: 1;
+  margin-left: 10px;
+}
+.dropdown-container .dropdown-toggle i {
+  font-size: 20px;
+  transition: transform 0.3s ease;
+}
+.dropdown-container.active .dropdown-toggle {
+  border-radius: 20px 20px 0 0;
+}
+.dropdown-container .dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 300px;
+  overflow: auto;
+  display: none;
+  padding: 20px;
+  z-index: 1;
+  list-style: none;
+  flex-direction: column;
+  background-color: var(--bg-color);
+  transition: all 0.3s;
+  border-radius: 0 0 20px 20px;
+}
+.dropdown-container.active .dropdown-menu {
+  display: flex;
+}
+.dropdown-container.active .dropdown-menu li {
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-bottom: 5px;
+  border: 2px solid var(--light-bg-color);
+  transition: all 0.3s;
+}
+.dropdown-container.active .dropdown-menu li.active {
+  background-color: var(--primary-color);
+  color: var(--primary-text-color);
+}
+.dropdown-container.active .dropdown-menu li:not(.active):hover {
+  background-color: var(--light-bg-color);
+}
+.container .text-area {
+  position: relative;
+}
+.container textarea {
+  width: 100%;
+  padding: 20px;
+  margin: 10px 0;
+  background-color: transparent;
+  resize: none;
+  outline: none;
+  border: none;
+  color: var(--text-color);
+  font-size: 18px;
+}
+.container .text-area .chars {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 10px;
+  font-size: 1rem;
+  color: var(--light-text-color);
+  position: sticky;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 2px solid var(--bg-color);
+}
+.icons {
+  font-weight: 600;
+  /* width: 30%; */
+  display: flex;
+  align-items: center;
+}
+.icons span {
+  cursor: pointer;
+  flex: 1;
+}
+.icons span:nth-child(2) {
+  font-size: 1.2rem;
+  margin-left: 1rem;
+}
+.icons span:hover {
+  color: #4d4d4d;
+  transform: scale(1.1);
+}
+.swap-position {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid var(--bg-color);
+  transition: all 0.3s;
+  color: var(--primary-text-color);
+  background-color: var(--primary-color);
+}
+.swap-position i {
+  font-size: 20px;
+}
+.swap-position:hover {
+  transform: translateX(-50%) scale(1.1);
+}
+.mode {
+  position: fixed;
+  right: 20px;
+  z-index: 1;
+  bottom: 20px;
+}
+.toggle {
+  position: relative;
+  cursor: pointer;
 }
 
-.App-link {
-  color: #61dafb;
+/* toggle switch */
+.switch {
+  font-size: 17px;
+  position: relative;
+  display: inline-block;
+  width: 64px;
+  height: 34px;
 }
 
-@keyframes App-logo-spin {
-  from {
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #73c0fc;
+  transition: 0.4s;
+  border-radius: 30px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 30px;
+  width: 30px;
+  border-radius: 20px;
+  left: 2px;
+  bottom: 2px;
+  z-index: 2;
+  background-color: #e8e8e8;
+  transition: 0.4s;
+}
+
+.sun svg {
+  position: absolute;
+  top: 6px;
+  left: 36px;
+  z-index: 1;
+  width: 24px;
+  height: 24px;
+}
+
+.moon svg {
+  fill: #73c0fc;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  z-index: 1;
+  width: 24px;
+  height: 24px;
+}
+
+/* .switch:hover */
+.sun svg {
+  animation: rotate 15s linear infinite;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* .switch:hover */
+.moon svg {
+  animation: tilt 5s linear infinite;
+}
+
+@keyframes tilt {
+  0% {
     transform: rotate(0deg);
   }
-  to {
-    transform: rotate(360deg);
+
+  25% {
+    transform: rotate(-10deg);
+  }
+
+  75% {
+    transform: rotate(10deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.input:checked + .slider {
+  background-color: #183153;
+}
+
+.input:focus + .slider {
+  box-shadow: 0 0 1px #183153;
+}
+
+.input:checked + .slider:before {
+  transform: translateX(30px);
+}
+
+@media (max-width: 800px) {
+  .container {
+    width: 100%;
+    margin: 30px 0;
+    flex-direction: column;
+  }
+  .container .card {
+    width: 100%;
+  }
+  .container .card .from {
+    margin-right: 0;
+  }
+  .container .card .to {
+    margin-left: 0;
+  }
+  .container .card .from,
+  .container .card .to {
+    flex-direction: column;
+  }
+  .swap-position {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .swap-position:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+  .swap-position i {
+    transform: rotate(90deg);
   }
 }
